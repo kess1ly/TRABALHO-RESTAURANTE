@@ -76,15 +76,6 @@ $stmt->close();
         >
         <br><br>
 
-        <label>Endereço:</label>
-        <input 
-            type="text" 
-            name="endereco" 
-            value="<?= htmlspecialchars($cliente['endereco']) ?>" 
-            required
-        >
-        <br><br>
-
         <button type="submit">Salvar alterações</button>
 
     </form>
