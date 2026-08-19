@@ -10,19 +10,34 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $nome = trim($_POST["nome"] ?? "");
 $cpf = trim($_POST["cpf"] ?? "");
+$senha = trim($_POST["senha"] ?? "");
 $telefone = trim($_POST["telefone"] ?? "");
 $email = trim($_POST["email"] ?? "");
-$endereco = trim($_POST["endereco"] ?? "");
+
 
 $erros = validarCliente(
     $nome,
     $cpf,
+    $senha,
     $telefone,
-    $email,
-    $endereco
+    $email
+ 
+    
 );
 
-$sql = "INSERT INTO clientes (nome, cpf, telefone, email, endereco, data_cadastro)
+if (!empty($erros)) {
+    foreach ($erros as $erro) {
+        echo "<p>" . htmlspecialchars($erro) . "</p>";
+    }
+
+    echo '<a href="cadastro.php">Voltar</a>';
+    exit;
+}
+
+$senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+$sql = "INSERT INTO clientes 
+        (nome, cpf, senha, telefone, email, data_cadastro)
         VALUES (?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conexao->prepare($sql);
@@ -31,9 +46,10 @@ $stmt->bind_param(
     "sssss",
     $nome,
     $cpf,
+    $senha_hash,
     $telefone,
-    $email,
-    $endereco
+    $email
+    
 );
 
 if ($stmt->execute()) {
