@@ -1,6 +1,6 @@
 <?php
 
-function validarCliente($nome, $cpf, $telefone, $email, $endereco)
+function validarCliente($nome, $cpf, $senha, $telefone, $email)
 {
     $erros = [];
 
@@ -10,6 +10,12 @@ function validarCliente($nome, $cpf, $telefone, $email, $endereco)
 
     if ($cpf === "") {
         $erros[] = "O CPF é obrigatório.";
+    }
+
+    if ($senha === "") {
+        $erros[] = "A senha é obrigatória.";
+    } elseif (strlen($senha) < 6) {
+        $erros[] = "A senha deve ter pelo menos 6 caracteres.";
     }
 
     if ($telefone === "") {
@@ -22,10 +28,7 @@ function validarCliente($nome, $cpf, $telefone, $email, $endereco)
         $erros[] = "Informe um e-mail válido.";
     }
 
-    if ($endereco === "") {
-        $erros[] = "O endereço é obrigatório.";
-    }
-
+   
     return $erros;
 }
 
